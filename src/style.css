@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Huninn&display=swap');
+
+:root {
+  --accent-glow: rgba(255, 255, 255, 0.12);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000000;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  color: white;
+}
+
+.text-glow {
+  text-shadow: 0 0 45px var(--accent-glow);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+.float-anim {
+  animation: float 5s ease-in-out infinite;
+}

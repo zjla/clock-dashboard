@@ -11,7 +11,7 @@ export interface HAEntity {
 
 export interface WeatherInfo {
   text: string
-  type: 'sunny' | 'cloudy' | 'rainy' | 'snowy' | 'storm'
+  icon?: string
 }
 
 export interface LunarInfo {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HAConfig } from '../types'
 import { Blinds, Droplets, Fan, Lightbulb, LightbulbOff, Loader2, Power, RotateCw, Settings, Snowflake, Thermometer, Tv, Zap } from 'lucide-vue-next'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const emit = defineEmits(['openSettings'])
 
@@ -129,10 +129,6 @@ async function toggleEntity(entityId: string) {
     loadingStates.value[entityId] = false
   }
 }
-
-onMounted(() => {
-  updateAllStates()
-})
 
 defineExpose({ updateAllStates, entitiesStates })
 </script>

@@ -112,7 +112,7 @@ function save() {
         </div>
       </div>
 
-      <div class="space-y-6 overflow-y-auto pr-2 custom-scrollbar flex-1">
+      <div class="space-y-6 overflow-y-auto pr-2 flex-1">
         <div v-if="!isJsonMode" class="space-y-6">
           <div>
             <label class="block text-sm opacity-50 mb-2 uppercase tracking-widest">HA 地址</label>
@@ -173,7 +173,7 @@ function save() {
           <textarea
             v-model="jsonInput"
             rows="18"
-            class="w-full bg-white/5 border border-white/10 text-white font-mono text-sm rounded-xl px-4 py-3 outline-none focus:border-white/30 custom-scrollbar"
+            class="w-full bg-white/5 border border-white/10 text-white font-mono text-sm rounded-xl px-4 py-3 outline-none focus:border-white/30"
             placeholder="{&quot;url&quot;: &quot;http://...&quot;, &quot;token&quot;: &quot;...&quot;, &quot;entities&quot;: [{&quot;id&quot;: &quot;light.living_room&quot;, &quot;name&quot;: &quot;客厅灯&quot;}]}"
           />
           <div class="flex justify-between items-center text-[10px] opacity-30 px-1">

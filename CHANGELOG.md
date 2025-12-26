@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/teojs/clock-dashboard/compare/v1.8.0...v1.9.0) (2025-12-26)
+
+
+### Features
+
+* **weather:** integrate weather effects component and refactor weather logic ([b03a5f1](https://github.com/teojs/clock-dashboard/commit/b03a5f130a96ba5f6b59045c3535ac3316f8c5a6))
+
 ## [1.8.0](https://github.com/teojs/clock-dashboard/compare/v1.7.0...v1.8.0) (2025-12-24)
 
 

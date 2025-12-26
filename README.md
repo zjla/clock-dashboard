@@ -6,16 +6,25 @@
 [![releases](https://img.shields.io/github/v/release/teojs/clock-dashboard?color=green&label=releases)](https://github.com/teojs/clock-dashboard/releases)
 
 一个基于 Vue 3 + TypeScript + Vite + Tailwind CSS 构建的天气时钟看板。
-将废弃iPad变为时钟看板，支持天气、农历、日历、Home Assistant 智能设备控制（通过左右滑动切换页面）。
+将闲置旧 iPad 变为时钟看板，支持天气、农历、日历、Home Assistant 智能设备控制（通过左右滑动切换页面）。
 
 预览地址：[https://teojs.github.io/clock-dashboard/](https://teojs.github.io/clock-dashboard/)
 
+---
+
+## 更新日志
+
+- 2025-12-26 （[v1.10.0](https://github.com/teojs/clock-dashboard/releases/tag/v1.10.0)）
+  - 新增天气设置弹窗，支持设置天气刷新间隔、下雨、下雪、打雷特效开关。
 ---
 
 ## 🌟 特性
 
 - **动态数字时钟**：支持滚动动画和随机倾斜效果，模拟手写/艺术字感。
 - **实时天气**：基于[Open-Meteo](https://open-meteo.com/)，根据地理位置或 IP 自动获取天气、温度、湿度。
+
+  点击底部天气区域可以进行设置。
+
 - **农历信息**：集成 `lunar-typescript`，提供精准的农历、干支年及节日显示。
 - **全屏日历**：内置万年历视图，支持月份切换及今天快速跳转。
 - **智能家居控制**：深度集成 Home Assistant，支持灯光、开关、窗帘电机（Cover）等设备的实时控制与状态同步。
@@ -71,7 +80,7 @@ pnpm build
 
 ---
 
-## ⚙️ 智能家居配置
+## ⚙️ Home Assistant 智能家居配置
 
 在应用中点击右上角设置图标，可以配置您的 Home Assistant 信息：
 

@@ -2,6 +2,7 @@
 import { Blinds, Droplets, Fan, Lightbulb, LightbulbOff, Loader2, Power, RotateCw, Settings, Snowflake, Thermometer, Tv, Zap } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
+import { callService, fetchEntityState as fetchEntityStateApi } from '../api/homeassistant'
 import SmartSettingsModal from '../components/SmartSettingsModal.vue'
 import { useConfigStore } from '../stores/config'
 
@@ -64,10 +65,10 @@ async function fetchEntityState(entityId: string) {
   if (!haConfig.value.url || !haConfig.value.token)
     return
   try {
-    const response = await fetch(`${haConfig.value.url}/api/states/${entityId}`, {
-      headers: { Authorization: `Bearer ${haConfig.value.token}` },
-    })
-    const state = await response.json()
+    const state = await fetchEntityStateApi({
+      url: haConfig.value.url,
+      token: haConfig.value.token,
+    }, entityId)
     entitiesStates.value[entityId] = state
   }
   catch (e) {
@@ -110,14 +111,15 @@ async function toggleEntity(entityId: string) {
   loadingStates.value[entityId] = true
 
   try {
-    await fetch(`${haConfig.value.url}/api/services/${domain}/${service}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${haConfig.value.token}`,
-        'Content-Type': 'application/json',
+    await callService(
+      {
+        url: haConfig.value.url,
+        token: haConfig.value.token,
       },
-      body: JSON.stringify({ entity_id: entityId }),
-    })
+      domain,
+      service,
+      { entity_id: entityId },
+    )
     setTimeout(() => fetchEntityState(entityId).then(() => {
       loadingStates.value[entityId] = false
     }), 500)

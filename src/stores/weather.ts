@@ -1,16 +1,13 @@
+import type { CitySearchResult } from '../api/types'
 import type { WeatherInfo } from '../types'
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
+import { searchCities as searchCitiesApi } from '../api/geocoding'
+import { getLocationByIp, reverseGeocode as reverseGeocodeApi } from '../api/location'
+import { fetchWeatherData } from '../api/weather'
 import { mapWmoCode } from '../utils/weather'
 
 export type LocationMode = 'auto' | 'coords' | 'city'
-
-export interface CitySearchResult {
-  name: string
-  displayName: string
-  latitude: number
-  longitude: number
-}
 
 export const useWeatherStore = defineStore('weather', () => {
   // --- Persistent State ---
@@ -31,14 +28,8 @@ export const useWeatherStore = defineStore('weather', () => {
   const cachedCoords = ref<{ lat: number, lon: number, city: string } | null>(null)
 
   async function fetchWeather(lat: number, lon: number) {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,rain,wind_speed_10m,is_day,apparent_temperature,showers,relative_humidity_2m,precipitation,weather_code&hourly=precipitation_probability,uv_index,temperature_2m&timezone=auto&forecast_days=1`
     try {
-      const response = await fetch(url)
-      const data = await response.json()
-
-      const currentHour = new Date().getHours()
-      data.current_hour_index = currentHour
-
+      const data = await fetchWeatherData(lat, lon)
       weatherData.value = data
       weatherInfo.value = mapWmoCode(data.current.weather_code, data.current.is_day === 1)
       loading.value = false
@@ -74,22 +65,9 @@ export const useWeatherStore = defineStore('weather', () => {
         return []
       }
 
-      const url = new URL('https://nominatim.openstreetmap.org/search')
-      url.searchParams.set('q', trimmedQuery)
-      url.searchParams.set('format', 'json')
-      url.searchParams.set('limit', '3')
-      url.searchParams.set('accept-language', 'zh-CN')
-      url.searchParams.set('addressdetails', '1')
-
-      const res = await fetch(url.toString(), {
-        headers: {
-          'User-Agent': 'ClockDashboard/1.0',
-        },
-      })
-      const data = await res.json()
-
-      if (Array.isArray(data) && data.length > 0) {
-        return data.map((r: any) => {
+      const results = await searchCitiesApi(trimmedQuery)
+      if (results.length > 0) {
+        return results.map((r) => {
           const rawName = r.name || ''
           const rawDisplayName = r.name || ''
           const cityName = extractSimplifiedChinese(rawName.split(',')[0] || rawName)
@@ -137,8 +115,7 @@ export const useWeatherStore = defineStore('weather', () => {
 
   async function reverseGeocode(lat: number, lon: number) {
     try {
-      const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=zh`)
-      const data = await response.json()
+      const data = await reverseGeocodeApi(lat, lon)
       const city = data.city || data.locality || data.principalSubdivision || '未知城市'
       return city
     }
@@ -149,8 +126,7 @@ export const useWeatherStore = defineStore('weather', () => {
 
   async function fetchByIp() {
     try {
-      const res = await fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=zh')
-      const data = await res.json()
+      const data = await getLocationByIp()
       if (data.latitude && data.longitude) {
         locationText.value = data.city || data.locality || data.principalSubdivision || '未知城市'
         await fetchWeather(data.latitude, data.longitude)

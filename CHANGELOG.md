@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/teojs/clock-dashboard/compare/v1.13.0...v1.14.0) (2025-12-31)
+
+
+### Features
+
+* add getCurrentPosition function to enhance geolocation handling and improve location retrieval in weather store ([b34cb1c](https://github.com/teojs/clock-dashboard/commit/b34cb1cb35552e2c7b83a092b731bf9d3f546ab5))
+* implement geocoding and weather APIs, enhancing location and weather data retrieval capabilities ([b7492ca](https://github.com/teojs/clock-dashboard/commit/b7492ca5535ab7724d21b079ba595ca67231e0ae))
+
 ## [1.13.0](https://github.com/teojs/clock-dashboard/compare/v1.12.1...v1.13.0) (2025-12-29)
 
 

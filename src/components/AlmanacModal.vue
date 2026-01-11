@@ -25,7 +25,7 @@ defineEmits(['close'])
       <div class="absolute inset-0 bg-black/80" @click="$emit('close')" />
 
       <!-- 弹窗内容 -->
-      <div class="max-h-[80vh] overflow-y-auto relative w-full max-w-xl bg-neutral-900/90 border border-white/10 rounded-3xl overflow-hidden p-6 space-y-4">
+      <div class="max-h-[80vh] overflow-y-auto relative w-full max-w-xl bg-neutral-900 border border-white/10 rounded-3xl overflow-hidden p-6 space-y-4">
         <button
           class="p-3 bg-white/5 hover:bg-white/10 rounded-full transition-colors absolute top-2 right-2"
           @click="$emit('close')"

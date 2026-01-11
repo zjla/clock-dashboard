@@ -16,12 +16,10 @@ export interface WeatherInfo {
 
 export interface LunarInfo {
   fullDate: string
-  month: string
-  date: string
-  year: string
-  yearGanzhi: string // 乙巳
+  month: string // 正月、冬月、闰二月
+  date: string // 初一、十五
+  year: string // 乙巳
   yearShengxiao: string // 蛇
-  monthInChinese: string // 十一
   monthGanzhi: string // 己丑
   dayInChinese: string // 廿三
   dayGanzhi: string // 乙酉

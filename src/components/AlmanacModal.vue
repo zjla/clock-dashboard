@@ -41,7 +41,7 @@ defineEmits(['close'])
         <!-- 农历信息 -->
         <div class="text-xl">
           <span>
-            {{ lunar.yearGanzhi }}({{ lunar.yearShengxiao }})年 {{ lunar.monthInChinese }}({{ lunar.monthGanzhi }})月 {{ lunar.dayInChinese }}({{ lunar.dayGanzhi }})日
+            {{ lunar.year }}({{ lunar.yearShengxiao }})年 {{ lunar.month }}({{ lunar.monthGanzhi }})月 {{ lunar.dayInChinese }}({{ lunar.dayGanzhi }})日
           </span>
           <span v-if="lunar.festival" class="text-blue-400">
             {{ lunar.festival }}

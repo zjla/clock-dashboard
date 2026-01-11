@@ -47,7 +47,7 @@ defineEmits(['close'])
             <span v-if="lunar.festival" class="text-blue-400">
               {{ lunar.festival }}
             </span>
-            <span v-if="lunar.holiday || lunar.festival" class="text-white/40"> · </span>
+            <span v-if="lunar.holiday" class="text-white/40"> · </span>
             <span v-if="lunar.holiday" :class="lunar.holiday === '休' ? 'text-red-400' : 'text-orange-400'">
               {{ lunar.holiday }}
             </span>

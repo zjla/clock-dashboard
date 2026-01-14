@@ -47,7 +47,7 @@ onUnmounted(() => {
     id="weather-container"
     class="weather-clickable px-4 sm:px-12 grid grid-cols-1 md:grid-cols-3 gap-3 w-full transition-opacity duration-700"
     :class="{ 'opacity-30': loading, 'opacity-100': !loading }"
-    @click="openForecast"
+    @click.stop.prevent="openForecast"
   >
     <!-- 状态与定位 -->
     <div class="flex items-center justify-center md:justify-start gap-0">

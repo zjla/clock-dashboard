@@ -115,7 +115,7 @@ function handleOverlayClick(e: MouseEvent) {
     <div
       v-if="show"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
-      @click="handleOverlayClick"
+      @click.stop.prevent="handleOverlayClick"
       @mousedown.stop
       @mouseup.stop
       @touchstart.stop
@@ -127,7 +127,7 @@ function handleOverlayClick(e: MouseEvent) {
         <!-- 关闭按钮 -->
         <button
           class="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all hover:rotate-90 duration-300"
-          @click="handleClose"
+          @click.stop.prevent="handleClose"
         >
           <X class="w-6 h-6 text-white" />
         </button>

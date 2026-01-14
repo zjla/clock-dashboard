@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
-import ClockSettingsModal from '../components/ClockSettingsModal.vue'
+import { computed } from 'vue'
 import Digit from '../components/Digit.vue'
 import Weather from '../components/Weather.vue'
 import { useTime } from '../hooks/useTime'
 import { useConfigStore } from '../stores/config'
 
 const configStore = useConfigStore()
-const { clockConfig } = storeToRefs(configStore)
+const { clockConfig, showDrawer, activeTab } = storeToRefs(configStore)
 
 const { h1, h2, m1, m2, s1, s2, lunar, now } = useTime({
   is24Hour: computed(() => clockConfig.value.is24Hour),
 })
 
-const showClockSettings = ref(false)
+function openSettings() {
+  activeTab.value = 'clock'
+  showDrawer.value = true
+}
 
 const baseDelay = computed(() => {
   return clockConfig.value.showSeconds ? 0 : -2
@@ -50,7 +52,7 @@ const baseDelay = computed(() => {
       class="clock-display tabular-nums cursor-pointer transition-all duration-500"
       :class="{ 'with-seconds': clockConfig.showSeconds }"
       :style="{ color: clockConfig.color, fontWeight: clockConfig.fontWeight, opacity: clockConfig.opacity }"
-      @click="showClockSettings = true"
+      @click="openSettings"
     >
       <Digit
         v-if="clockConfig.is24Hour || h1 !== 0"
@@ -110,9 +112,6 @@ const baseDelay = computed(() => {
 
     <!-- 天气展示 -->
     <Weather />
-
-    <!-- 时钟设置弹窗 -->
-    <ClockSettingsModal :show="showClockSettings" @close="showClockSettings = false" />
   </div>
 </template>
 

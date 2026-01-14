@@ -3,6 +3,9 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useConfigStore = defineStore('config', () => {
+  const showDrawer = ref(false)
+  const activeTab = ref<'clock' | 'weather' | 'calendar' | 'smart'>('clock')
+
   const haConfig = ref<HAConfig>({
     url: '',
     token: '',
@@ -27,13 +30,19 @@ export const useConfigStore = defineStore('config', () => {
   const calendarConfig = ref({
     /** 一周的开始：0 为周日，1 为周一 */
     weekStartDay: 0,
+    /** 显示法定节假日 */
+    showHolidays: true,
   })
 
   return {
     haConfig,
     clockConfig,
     calendarConfig,
+    showDrawer,
+    activeTab,
   }
 }, {
-  persist: true,
+  persist: {
+    omit: ['showDrawer', 'activeTab'],
+  },
 })

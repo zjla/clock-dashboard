@@ -75,12 +75,14 @@ function closeDrawer() {
               <button
                 v-for="tab in tabs"
                 :key="tab.id"
-                class="w-full flex flex-col md:flex-row items-center gap-3 px-3 py-4 md:py-3 rounded-xl transition-all duration-300 border border-white/0 hover:border-white/60"
+                class="w-full rounded-xl transition-all duration-300 border border-white/0 hover:border-white/60"
                 :class="activeTab === tab.id ? 'bg-white/[0.09] font-bold shadow-lg border-white/60' : 'text-white/40 hover:text-white/70 hover:bg-white/5'"
                 @click="activeTab = tab.id"
               >
-                <component :is="tab.icon" class="w-6 h-6" />
-                <span class="text-xs md:text-base md:tracking-wide">{{ tab.name }}</span>
+                <span class="flex flex-col md:flex-row items-center gap-3 px-3 py-4 md:py-3">
+                  <component :is="tab.icon" class="w-6 h-6" />
+                  <span class="text-xs md:text-base md:tracking-wide">{{ tab.name }}</span>
+                </span>
               </button>
             </nav>
 

@@ -175,7 +175,9 @@ defineExpose({ save, reset })
               </div>
             </div>
             <button class="settings-secondary-btn w-full justify-center border-dashed border-white/10 py-3 !mt-6" @click="addEntity()">
-              <PlusCircle class="w-4 h-4" /> 添加设备
+              <span class="flex items-center gap-2">
+                <PlusCircle class="w-4 h-4" /> 添加设备
+              </span>
             </button>
           </div>
         </div>

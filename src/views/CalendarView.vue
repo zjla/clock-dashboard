@@ -3,12 +3,14 @@ import type { LunarInfo } from '../types'
 import { ChevronLeft, ChevronRight, Settings } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import AlmanacModal from '../components/AlmanacModal.vue'
 import { useConfigStore } from '../stores/config'
 import { getAlmanacDetails, getLunarDate } from '../utils/lunar'
 
 const configStore = useConfigStore()
 const { calendarConfig, showDrawer, activeTab } = storeToRefs(configStore)
+const { t, locale } = useI18n()
 
 const currentMonthDate = ref(new Date())
 const today = ref(new Date())
@@ -76,12 +78,27 @@ const calendarDays = computed(() => {
 })
 
 const weekHeaders = computed(() => {
-  const headers = ['日', '一', '二', '三', '四', '五', '六']
+  const headers = [
+    t('weekdays.short.0'),
+    t('weekdays.short.1'),
+    t('weekdays.short.2'),
+    t('weekdays.short.3'),
+    t('weekdays.short.4'),
+    t('weekdays.short.5'),
+    t('weekdays.short.6'),
+  ]
   if (calendarConfig.value.weekStartDay === 1) {
-    return ['一', '二', '三', '四', '五', '六', '日']
+    return [headers[1], headers[2], headers[3], headers[4], headers[5], headers[6], headers[0]]
   }
   return headers
 })
+
+const monthLabel = computed(() => {
+  const formatter = new Intl.DateTimeFormat(locale.value, { year: 'numeric', month: 'long' })
+  return formatter.format(currentMonthDate.value)
+})
+
+const showLunar = computed(() => locale.value !== 'en-US')
 
 function changeMonth(delta: number) {
   const d = new Date(currentMonthDate.value)
@@ -90,6 +107,7 @@ function changeMonth(delta: number) {
 }
 
 function handleDayClick(day: any) {
+  if (!showLunar.value) return
   selectedDay.value = {
     ...day,
     lunar: {
@@ -120,7 +138,7 @@ defineExpose({ refreshToday })
     <div class="flex items-center justify-between w-full mb-8 px-4">
       <div class="text-left">
         <h2 class="text-4xl md:text-5xl font-bold tracking-widest">
-          {{ year }}年{{ month + 1 }}月
+          {{ monthLabel }}
         </h2>
       </div>
       <div class="flex items-center gap-3">
@@ -131,7 +149,7 @@ defineExpose({ refreshToday })
           class="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-full transition-all duration-300 text-md font-medium"
           @click="goToToday"
         >
-          今天
+          {{ t('calendar.today') }}
         </button>
         <button class="p-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-full transition-all duration-300" @click="changeMonth(1)">
           <ChevronRight class="w-6 h-6 " />
@@ -161,7 +179,7 @@ defineExpose({ refreshToday })
         >
           <div class="day-number-wrapper flex flex-col items-center justify-center">
             <span class="text-2xl md:text-3xl font-bold">{{ day.date.getDate() }}</span>
-            <div class="lunar-text text-sm font-normal mt-1 text-center">
+            <div v-if="showLunar" class="lunar-text text-sm font-normal mt-1 text-center">
               <span
                 :class="day.lunar.isFestival ? 'text-blue-300 opacity-100' : 'opacity-60'"
               >
@@ -182,7 +200,7 @@ defineExpose({ refreshToday })
 
   <Teleport to="body">
     <AlmanacModal
-      v-if="selectedDay"
+      v-if="selectedDay && showLunar"
       :show="!!selectedDay"
       :date="selectedDay.date"
       :lunar="selectedDay.lunar"

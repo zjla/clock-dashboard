@@ -2,6 +2,7 @@
 import { AirVent, AlertTriangle, Blinds, Droplets, Fan, Lightbulb, Loader2, Power, Settings, Thermometer, Tv, Zap } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { computed, onUnmounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { haSocket } from '../api'
 import { useConfigStore } from '../stores/config'
 import { useHAStore } from '../stores/ha'
@@ -10,6 +11,7 @@ const configStore = useConfigStore()
 const haStore = useHAStore()
 const { haConfig, showDrawer, activeTab } = storeToRefs(configStore)
 const { entitiesStates } = storeToRefs(haStore)
+const { t } = useI18n()
 
 const isConnecting = ref(false)
 
@@ -85,7 +87,7 @@ async function initConnection() {
     console.error('HA Connection Error:', e)
     isConnecting.value = false
     entitiesStates.value = {}
-    connectErrorText.value = '连接失败，请检查网络和配置'
+    connectErrorText.value = t('smartHome.connectFailed')
   }
 }
 
@@ -116,7 +118,7 @@ async function toggleEntity(entityId: string) {
     loadingStates.value[entityId] = false
   }
   catch (e) {
-    alert('操作失败，请检查网络和配置')
+    alert(t('smartHome.actionFailed'))
     loadingStates.value[entityId] = false
   }
 }
@@ -135,7 +137,7 @@ watch([() => haConfig.value.url, () => haConfig.value.token], () => {
     <div class="flex items-center justify-between w-full mb-10">
       <div class="flex items-baseline gap-6">
         <h2 class="text-4xl font-bold tracking-widest text-nowrap">
-          智能控制
+          {{ t('smartHome.title') }}
         </h2>
         <div v-if="headerClimateInfo" class="flex items-center gap-6 opacity-60">
           <div v-if="headerClimateInfo.temp !== undefined" class="flex items-center gap-2">
@@ -196,10 +198,10 @@ watch([() => haConfig.value.url, () => haConfig.value.token], () => {
           </span>
           <span class="text-sm opacity-50 uppercase tracking-widest">
             <template v-if="entity.id.startsWith('climate.') && isEntityOn(entity.id)">
-              {{ entitiesStates[entity.id]?.attributes?.temperature ? `${entitiesStates[entity.id].attributes.temperature}°C` : '已开启' }}
+              {{ entitiesStates[entity.id]?.attributes?.temperature ? `${entitiesStates[entity.id].attributes.temperature}°C` : t('smartHome.statusOn') }}
             </template>
             <template v-else>
-              {{ !entitiesStates[entity.id] ? '未找到实体' : isEntityOn(entity.id) ? '已开启' : '已关闭' }}
+              {{ !entitiesStates[entity.id] ? t('smartHome.notFound') : isEntityOn(entity.id) ? t('smartHome.statusOn') : t('smartHome.statusOff') }}
             </template>
           </span>
         </div>
@@ -207,7 +209,7 @@ watch([() => haConfig.value.url, () => haConfig.value.token], () => {
     </div>
 
     <div v-else class="col-span-full text-center py-20 opacity-50">
-      <p>请点击右上角设置 Home Assistant 地址和令牌</p>
+      <p>{{ t('smartHome.setupTip') }}</p>
     </div>
   </div>
 </template>

@@ -2,6 +2,7 @@
 import { RefreshCw, Settings } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { computed, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useConfigStore } from '../stores/config'
 import { useWeatherStore } from '../stores/weather'
 import { isIpadIOS15OrLower } from '../utils/device'
@@ -19,6 +20,7 @@ const weatherStore = useWeatherStore()
 const configStore = useConfigStore()
 const { locationText, weatherData, loading } = storeToRefs(weatherStore)
 const { showDrawer, activeTab } = storeToRefs(configStore)
+const { t, locale } = useI18n()
 
 interface ForecastDay {
   dayName: string
@@ -42,12 +44,12 @@ const forecastDays = computed<ForecastDay[]>(() => {
       const isTomorrow = index === 1
 
       const dayName = isToday
-        ? '今天'
+        ? t('common.today')
         : isTomorrow
-          ? '明天'
-          : ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][date.getDay()]
+          ? t('common.tomorrow')
+          : t(`weekdays.short.${date.getDay()}`)
 
-      const dateText = `${date.getMonth() + 1}/${date.getDate()}`
+      const dateText = new Intl.DateTimeFormat(locale.value, { month: 'numeric', day: 'numeric' }).format(date)
       const weatherInfo = mapWmoCode(daily.weather_code[index], true)
 
       return {
@@ -143,7 +145,7 @@ function handleOverlayClick(e: MouseEvent) {
       <!-- 标题 -->
       <div class="px-8 pt-8 pb-6 flex items-center justify-between gap-4">
         <h2 class="text-3xl font-bold text-white flex items-center gap-2">
-          <span>5日天气预报</span>
+          <span>{{ t('weather.fiveDayForecast') }}</span>
           <span class="text-white/40">·</span>
           <span class="text-white/60 text-2xl">{{ locationText }}</span>
         </h2>
@@ -230,7 +232,7 @@ function handleOverlayClick(e: MouseEvent) {
                   <div class="flex flex-col">
                     <span class="text-lg text-white/90">{{ day.weatherInfo.text }}</span>
                     <!-- 降雨概率 -->
-                    <span class="text-sm text-blue-400 tabular-nums">降雨 {{ day.precipitationProbability }}%</span>
+                    <span class="text-sm text-blue-400 tabular-nums">{{ t('weather.rainLabel') }} {{ day.precipitationProbability }}%</span>
                   </div>
                 </div>
               </div>

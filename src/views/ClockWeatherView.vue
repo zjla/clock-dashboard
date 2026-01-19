@@ -3,6 +3,7 @@ import { useIdle } from '@vueuse/core'
 import { Settings } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { computed, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Digit from '../components/Digit.vue'
 import Weather from '../components/Weather.vue'
 import { useTime } from '../hooks/useTime'
@@ -10,13 +11,14 @@ import { useConfigStore } from '../stores/config'
 
 const configStore = useConfigStore()
 const { clockConfig, showDrawer, activeTab } = storeToRefs(configStore)
+const { locale } = useI18n()
 
 const { h1, h2, m1, m2, s1, s2, lunar, now } = useTime({
   is24Hour: computed(() => clockConfig.value.is24Hour),
 })
 
 function openSettings() {
-  activeTab.value = 'clock'
+  activeTab.value = 'general'
   showDrawer.value = true
 }
 
@@ -24,11 +26,22 @@ function toggleSeconds() {
   clockConfig.value.showSeconds = !clockConfig.value.showSeconds
 }
 
-const weekdayNames = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
 const weekdayLabel = computed(() => {
-  const date = now.value
-  return weekdayNames[date.getDay()]
+  const formatter = new Intl.DateTimeFormat(locale.value, { weekday: 'long' })
+  return formatter.format(now.value)
 })
+
+const yearMonthLabel = computed(() => {
+  const date = now.value
+  if (locale.value === 'en-US') {
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    return `${month}-${date.getFullYear()}`
+  }
+  const formatter = new Intl.DateTimeFormat(locale.value, { year: 'numeric', month: 'long' })
+  return formatter.format(date)
+})
+
+const showLunar = computed(() => locale.value !== 'en-US')
 
 const baseDelay = computed(() => {
   return clockConfig.value.showSeconds ? 0 : -2
@@ -66,10 +79,10 @@ watch(idle, (newIdle) => {
             {{ weekdayLabel }}
           </span>
           <span class="year-label">
-            {{ now.getFullYear() }}年{{ now.getMonth() + 1 }}月
+            {{ yearMonthLabel }}
           </span>
         </div>
-        <div class="flex flex-col">
+        <div v-if="showLunar" class="flex flex-col">
           <span class="lunar-date-label">{{ lunar.fullDate }}</span>
           <span class="lunar-year-label">{{ lunar.year }}({{ lunar.yearShengxiao }})年{{ lunar.month }}月</span>
         </div>

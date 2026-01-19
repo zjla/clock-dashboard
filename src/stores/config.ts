@@ -1,10 +1,14 @@
 import type { HAConfig } from '../types'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { normalizeLocale } from '../i18n'
+
+const defaultLanguage = normalizeLocale(typeof navigator !== 'undefined' ? navigator.language : undefined)
 
 export const useConfigStore = defineStore('config', () => {
   const showDrawer = ref(false)
-  const activeTab = ref<'clock' | 'weather' | 'calendar' | 'smart'>('clock')
+  const activeTab = ref<'general' | 'clock' | 'weather' | 'calendar' | 'smart'>('general')
+  const language = ref(defaultLanguage)
 
   const haConfig = ref<HAConfig>({
     url: '',
@@ -40,6 +44,7 @@ export const useConfigStore = defineStore('config', () => {
     calendarConfig,
     showDrawer,
     activeTab,
+    language,
   }
 }, {
   persist: {

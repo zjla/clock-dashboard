@@ -5,6 +5,7 @@ import { computed, ref, watch, watchEffect } from 'vue'
 import NewYearEgg from './components/NewYearEgg.vue'
 import SettingsDrawer from './components/SettingsDrawer.vue'
 import WeatherEffects from './components/WeatherEffects.vue'
+import { i18n } from './i18n'
 import { useConfigStore } from './stores/config'
 import { useWeatherStore } from './stores/weather'
 import { isIpadIOS15OrLower } from './utils/device'
@@ -123,6 +124,12 @@ watchEffect(() => {
   if (right.value && currentPage.value < 2) {
     goToPage(currentPage.value + 1)
   }
+})
+
+const { language } = storeToRefs(configStore)
+i18n.global.locale.value = language.value
+watch(language, (nextLocale) => {
+  i18n.global.locale.value = nextLocale
 })
 </script>
 

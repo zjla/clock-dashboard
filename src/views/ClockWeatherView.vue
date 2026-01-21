@@ -10,7 +10,7 @@ import { useTime } from '../hooks/useTime'
 import { useConfigStore } from '../stores/config'
 
 const configStore = useConfigStore()
-const { clockConfig, showDrawer, activeTab } = storeToRefs(configStore)
+const { clockConfig, layoutConfig, showDrawer, activeTab } = storeToRefs(configStore)
 const { locale } = useI18n()
 
 const { h1, h2, m1, m2, s1, s2, lunar, now } = useTime({
@@ -58,7 +58,7 @@ watch(idle, (newIdle) => {
 <template>
   <div
     class="glass-panel relative h-full flex flex-col items-center justify-center text-white w-full overflow-y-auto overflow-x-hidden"
-    :class="{ 'clock-only-mode': clockConfig.clockOnlyMode }"
+    :class="{ 'clock-only-mode': layoutConfig.clockOnlyMode }"
     @click.stop="showSettingsButton = !showSettingsButton"
   >
     <!-- 设置按钮 -->
@@ -70,7 +70,7 @@ watch(idle, (newIdle) => {
     </button>
 
     <!-- 日期与农历 -->
-    <div v-if="!clockConfig.clockOnlyMode" class="flex flex-col sm:flex-row items-center md:items-start w-full justify-center">
+    <div v-if="!layoutConfig.clockOnlyMode" class="flex flex-col sm:flex-row items-center md:items-start w-full justify-center">
       <div class="flex items-center">
         <div class="date-day-big">
           {{ now.getDate() }}
@@ -156,7 +156,7 @@ watch(idle, (newIdle) => {
     </div>
 
     <!-- 天气展示 -->
-    <Weather v-if="!clockConfig.clockOnlyMode" />
+    <Weather v-if="!layoutConfig.clockOnlyMode" />
   </div>
 </template>
 

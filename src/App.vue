@@ -14,7 +14,7 @@ import ClockWeatherView from './views/ClockWeatherView.vue'
 import SmartHomeView from './views/SmartHomeView.vue'
 
 const configStore = useConfigStore()
-const { showDrawer } = storeToRefs(configStore)
+const { showDrawer, clockConfig } = storeToRefs(configStore)
 
 const currentPage = ref(1)
 const calendarRef = ref<any>(null)
@@ -26,7 +26,7 @@ const isSwiping = ref(false)
 
 // 判断是否需要渲染天气特效组件
 const shouldShowWeatherEffects = computed(() => {
-  if (!weatherData.value) return false
+  if (!weatherData.value || clockConfig.value.clockOnlyMode) return false
 
   const code = weatherData.value.current?.weather_code ?? -1
 

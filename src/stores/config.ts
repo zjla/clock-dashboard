@@ -42,11 +42,17 @@ export const useConfigStore = defineStore('config', () => {
     showHolidays: true,
   })
 
+  const layoutConfig = ref({
+    /** 仅显示时钟 */
+    clockOnlyMode: false,
+  })
+
   return {
     haLayout,
     haConfig,
     clockConfig,
     calendarConfig,
+    layoutConfig,
     showDrawer,
     activeTab,
     language,

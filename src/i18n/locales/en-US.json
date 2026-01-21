@@ -8,9 +8,33 @@
     "settings": "Settings"
   },
   "weekdays": {
-    "short": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    "shortSimple": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    "long": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    "short": [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ],
+    "shortSimple": [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ],
+    "long": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ]
   },
   "tabs": {
     "general": "General",
@@ -30,6 +54,10 @@
     "zhCN": "Simplified Chinese",
     "zhTW": "Traditional Chinese",
     "enUS": "English"
+  },
+  "generalSettings": {
+    "layout": "Layout",
+    "clockOnlyMode": "Clock Only"
   },
   "clockSettings": {
     "color": "Clock Color",
@@ -118,7 +146,6 @@
       "defaultCity": "Beijing (Default)"
     },
     "conditions": {
-      "unknown": "Unknown",
       "0": "Clear",
       "1": "Mostly Clear",
       "2": "Partly Cloudy",
@@ -146,7 +173,8 @@
       "86": "Snow Showers",
       "95": "Thunderstorm",
       "96": "T-storm + Hail",
-      "99": "Severe T-storm"
+      "99": "Severe T-storm",
+      "unknown": "Unknown"
     },
     "aqi": {
       "good": "Good",

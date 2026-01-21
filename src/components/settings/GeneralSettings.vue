@@ -5,17 +5,17 @@ import { useI18n } from 'vue-i18n'
 import { useConfigStore } from '../../stores/config'
 
 const configStore = useConfigStore()
-const { language } = storeToRefs(configStore)
+const { language, layoutConfig } = storeToRefs(configStore)
 const { t } = useI18n()
 
-const languageDraft = ref(language.value)
+const layoutDraft = ref({ ...layoutConfig.value })
 
 function save() {
-  language.value = languageDraft.value
+  layoutConfig.value = { ...layoutDraft.value }
 }
 
 function reset() {
-  languageDraft.value = language.value
+  layoutDraft.value = { ...layoutConfig.value }
 }
 
 defineExpose({ save, reset })
@@ -30,25 +30,41 @@ defineExpose({ save, reset })
       <div class="grid grid-cols-3 space-x-3">
         <button
           class="settings-tab-btn"
-          :class="{ active: languageDraft === 'zh-CN' }"
-          @click="languageDraft = 'zh-CN'"
+          :class="{ active: language === 'zh-CN' }"
+          @click="language = 'zh-CN'"
         >
           {{ t('language.zhCN') }}
         </button>
         <button
           class="settings-tab-btn"
-          :class="{ active: languageDraft === 'zh-TW' }"
-          @click="languageDraft = 'zh-TW'"
+          :class="{ active: language === 'zh-TW' }"
+          @click="language = 'zh-TW'"
         >
           {{ t('language.zhTW') }}
         </button>
         <button
           class="settings-tab-btn"
-          :class="{ active: languageDraft === 'en-US' }"
-          @click="languageDraft = 'en-US'"
+          :class="{ active: language === 'en-US' }"
+          @click="language = 'en-US'"
         >
           {{ t('language.enUS') }}
         </button>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <h4 class="text-white/60 mb-4 uppercase tracking-widest text-sm font-medium">
+        {{ t('generalSettings.layout') }}
+      </h4>
+      <div
+        class="settings-toggle-card"
+        :class="{ active: layoutDraft.clockOnlyMode }"
+        @click="layoutDraft.clockOnlyMode = !layoutDraft.clockOnlyMode"
+      >
+        <span class="font-medium">{{ t('generalSettings.clockOnlyMode') }}</span>
+        <div class="toggle-switch">
+          <div class="toggle-dot" />
+        </div>
       </div>
     </section>
   </div>

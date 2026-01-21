@@ -58,6 +58,7 @@ watch(idle, (newIdle) => {
 <template>
   <div
     class="glass-panel relative h-full flex flex-col items-center justify-center text-white w-full overflow-y-auto overflow-x-hidden"
+    :class="{ 'clock-only-mode': clockConfig.clockOnlyMode }"
     @click.stop="showSettingsButton = !showSettingsButton"
   >
     <!-- 设置按钮 -->
@@ -69,7 +70,7 @@ watch(idle, (newIdle) => {
     </button>
 
     <!-- 日期与农历 -->
-    <div class="flex flex-col sm:flex-row items-center md:items-start w-full justify-center">
+    <div v-if="!clockConfig.clockOnlyMode" class="flex flex-col sm:flex-row items-center md:items-start w-full justify-center">
       <div class="flex items-center">
         <div class="date-day-big">
           {{ now.getDate() }}
@@ -155,7 +156,7 @@ watch(idle, (newIdle) => {
     </div>
 
     <!-- 天气展示 -->
-    <Weather />
+    <Weather v-if="!clockConfig.clockOnlyMode" />
   </div>
 </template>
 
@@ -163,6 +164,10 @@ watch(idle, (newIdle) => {
 .glass-panel {
   max-width: 150vh;
   margin: 0 auto;
+}
+
+.glass-panel.clock-only-mode {
+  max-width: 100vw;
 }
 
 .date-day-big {
@@ -219,6 +224,18 @@ watch(idle, (newIdle) => {
 
 .clock-display.with-seconds {
   font-size: 38vh;
+}
+
+.clock-only-mode .clock-display {
+  font-size: 44vw;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.clock-only-mode .clock-display.with-seconds {
+  font-size: 30vw;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .clock-separator {

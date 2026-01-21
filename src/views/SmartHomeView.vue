@@ -192,11 +192,11 @@ watch([() => haConfig.value.url, () => haConfig.value.token], () => {
           <!-- 右侧温湿度 (针对空调/climate) -->
           <div v-if="entity.id.startsWith('climate.') && entitiesStates[entity.id]?.attributes" class="flex flex-wrap justify-end overflow-x-hidden opacity-80">
             <div v-if="entitiesStates[entity.id].attributes.current_temperature !== undefined" class="flex items-center">
-              <Thermometer class="w-[2.5vh] h-[2.5vh] text-orange-400 mr-1.5" />
+              <Thermometer class="w-[2.5vh] h-[2.5vh] text-orange-400 mr-[0.8vh]" />
               <span class="text-[2vh]">{{ entitiesStates[entity.id].attributes.current_temperature }}°</span>
             </div>
             <div v-if="entitiesStates[entity.id].attributes.current_humidity !== undefined" class="flex items-center ml-4">
-              <Droplets class="w-[2.5vh] h-[2.5vh] text-blue-400 mr-1.5" />
+              <Droplets class="w-[2.5vh] h-[2.5vh] text-blue-400 mr-[0.8vh]" />
               <span class="text-[2vh]">{{ entitiesStates[entity.id].attributes.current_humidity }}%</span>
             </div>
           </div>

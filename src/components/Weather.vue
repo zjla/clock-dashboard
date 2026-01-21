@@ -47,13 +47,13 @@ onUnmounted(() => {
 <template>
   <div
     id="weather-container"
-    class="weather-clickable px-10 flex justify-between w-full transition-opacity duration-700"
+    class="weather-clickable px-12 flex justify-between w-full transition-opacity duration-700"
     :class="{ 'opacity-30': loading, 'opacity-100': !loading }"
     @click.stop.prevent="openForecast"
   >
     <!-- 状态与定位 -->
     <div class="flex items-center justify-center md:justify-start whitespace-nowrap">
-      <div id="weather-icon" class="flex-shrink-0">
+      <div id="weather-icon" class="flex-shrink-0 mr-[1vh]">
         <img :src="weatherInfo.icon" :alt="weatherInfo.text" class="w-full h-full object-contain" draggable="false">
       </div>
       <div>
@@ -69,8 +69,8 @@ onUnmounted(() => {
 
     <!-- 温度显示 -->
     <div class="flex items-center justify-center px-4">
-      <div class="flex items-end mr-6">
-        <div id="temp-val" class="font-extralight mr-1">
+      <div class="flex items-end mr-[2vh]">
+        <div id="temp-val" class="font-extralight mr-[0.8vh]">
           {{ weatherData ? Math.round(weatherData.current.temperature_2m) : '--' }}
         </div>
         <div class="temp-unit font-light opacity-70">
@@ -89,7 +89,7 @@ onUnmounted(() => {
 
     <!-- 环境数据 -->
     <div class="environment-data flex justify-end items-center text-white tabular-nums">
-      <div class="flex flex-col mr-4">
+      <div class="flex flex-col mr-[2vh]">
         <!-- 湿度 -->
         <div id="humidity-val" class="flex flex-row items-center justify-end">
           <span>
@@ -148,8 +148,8 @@ onUnmounted(() => {
 }
 
 #weather-icon {
-  width: 14.4vh;
-  height: 14.4vh;
+  width: 14.2vh;
+  height: 14.2vh;
 }
 
 #weather-text {
